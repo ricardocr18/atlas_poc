@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "atlas-documentacao-agent"
+version = "0.1.0"
+description = "Agente especialista em documentação e catalogação de componentes Atlas"
+authors = ["Sicredi Atlas Team"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pymongo = "^4.7.2"
+pydantic = "^2.7.1"
+pydantic-settings = "^2.2.1"
+python-dotenv = "^1.0.1"
+langgraph = "^0.2.0"
+langchain = "^0.3.0"
+langchain-openai = "^0.2.0"
+psycopg2-binary = "^2.9.9"
+httpx = "^0.27.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pylint = "^3.2.0"
+
+[tool.pylint.messages_control]
+disable = ["C0114", "C0115", "C0116"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
