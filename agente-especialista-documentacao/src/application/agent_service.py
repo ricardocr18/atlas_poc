@@ -6,6 +6,9 @@ Orquestrador da aplicação — ponto de entrada do grafo LangGraph.
 Fase 8: a entrada principal passa a ser um component_name
         (COMPONENT_NAME no .env), buscado manualmente — descoberta
         automática (polling ou Kafka) fica para uma fase futura.
+
+Fase 11: log final mostra id_postgres_application e
+         id_postgres_documentation no lugar do antigo id_postgres único.
 """
 
 import logging
@@ -38,7 +41,8 @@ def _processar_componente(component_name: str) -> None:
     logger.info("Última etapa   : %s", estado_final.get("etapa_atual"))
     logger.info("ID documentação: %s", estado_final.get("id_mongodb_previa"))
     logger.info("ID checklist   : %s", estado_final.get("id_mongodb_metadados"))
-    logger.info("ID postgres    : %s", estado_final.get("id_postgres"))
+    logger.info("ID application : %s", estado_final.get("id_postgres_application"))
+    logger.info("ID documentation: %s", estado_final.get("id_postgres_documentation"))
 
     erros = estado_final.get("erros", [])
     if erros:

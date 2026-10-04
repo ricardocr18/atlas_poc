@@ -3,15 +3,14 @@ infrastructure/postgresql
 ---------------------------
 Módulo de infraestrutura PostgreSQL.
 
-Expõe apenas o necessário para o restante da aplicação:
-  - get_connection: context manager de conexão
-  - ObjetosGeradosPreViasRepository: operações na tabela
+Fase 11: expõe o CatalogoRepository (schema normalizado de 7 tabelas)
+no lugar do antigo ObjetosGeradosPreViasRepository.
 """
 
 from src.infrastructure.postgresql.client import get_connection
-from src.infrastructure.postgresql.repositories import ObjetosGeradosPreViasRepository
+from src.infrastructure.postgresql.repositories import CatalogoRepository
 
 __all__ = [
     "get_connection",
-    "ObjetosGeradosPreViasRepository",
+    "CatalogoRepository",
 ]

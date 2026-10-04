@@ -1,10 +1,12 @@
 """
 nodes/supervisor_node.py
 --------------------------
-Último nó do grafo (Fase 7) — valida e consolida o resultado final.
+Último nó do grafo (Fase 7, atualizado na Fase 11) — valida e
+consolida o resultado final.
 
-Sem mudanças de lógica em relação à Fase 6 — só os nomes de campos
-de log foram atualizados para refletir a origem via repositório.
+Fase 11: valida id_postgres_application e id_postgres_documentation
+         (dois IDs, schema normalizado) no lugar do antigo id_postgres
+         único (tabela achatada).
 """
 
 import logging
@@ -26,7 +28,8 @@ def supervisor_node(state: DocumentacaoState) -> dict[str, Any]:
     erros = list(state.get("erros", []))
     id_previa = state.get("id_mongodb_previa")
     id_metadados = state.get("id_mongodb_metadados")
-    id_postgres = state.get("id_postgres")
+    id_postgres_application = state.get("id_postgres_application")
+    id_postgres_documentation = state.get("id_postgres_documentation")
     metadados = state.get("metadados_catalogo", {})
 
     if state.get("status_final") == "erro":
@@ -46,8 +49,10 @@ def supervisor_node(state: DocumentacaoState) -> dict[str, Any]:
         problemas.append("ID da documentação MongoDB não gerado")
     if not id_metadados:
         problemas.append("ID dos metadados MongoDB não gerado")
-    if not id_postgres:
-        problemas.append("ID do PostgreSQL não gerado")
+    if not id_postgres_application:
+        problemas.append("ID da application no PostgreSQL não gerado")
+    if not id_postgres_documentation:
+        problemas.append("ID da documentation no PostgreSQL não gerado")
 
     if problemas:
         erros.extend(problemas)
@@ -81,8 +86,12 @@ def supervisor_node(state: DocumentacaoState) -> dict[str, Any]:
         id_metadados,
     )
     logger.info(
-        "[supervisor_node] ✓ ID postgres   : %s → objetos_gerados_previas (PostgreSQL)",
-        id_postgres,
+        "[supervisor_node] ✓ ID application: %s → application (PostgreSQL)",
+        id_postgres_application,
+    )
+    logger.info(
+        "[supervisor_node] ✓ ID documentation: %s → documentation (PostgreSQL)",
+        id_postgres_documentation,
     )
     logger.info("[supervisor_node] ✓ Status        : %s", status_final)
 
