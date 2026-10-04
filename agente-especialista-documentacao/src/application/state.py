@@ -8,13 +8,18 @@ Fase 8: repository_url e repo_data são substituídos por component_name
         do componente (chave de busca no atlas_ingestao_api), não mais
         uma URL de repositório.
 
+Fase 11: id_postgres (um único UUID, tabela achatada) é substituído
+         por id_postgres_application e id_postgres_documentation —
+         agora são 7 tabelas normalizadas, com dois IDs relevantes
+         para rastreabilidade (o componente e a versão desta rodada).
+
 Ciclo de vida do Estado neste grafo:
   1. ingestao_fetch_node → preenche document_context a partir do component_name
   2. input_node          → valida document_context
   3. documentation_node  → preenche secoes_documentacao (formato wiki)
   4. cataloging_node     → preenche metadados_catalogo (checklist técnico)
   5. persistence_node    → preenche id_mongodb_previa e id_mongodb_metadados
-  6. postgres_node       → preenche id_postgres
+  6. postgres_node       → preenche id_postgres_application e id_postgres_documentation
   7. supervisor_node     → preenche status_final e encerra
 """
 
@@ -44,7 +49,12 @@ class DocumentacaoState(TypedDict):
 
         id_mongodb_previa: ID do documento em documentos_gerados_previas
         id_mongodb_metadados: ID do documento em componentes_catalogados_metadados
-        id_postgres: UUID do registro em objetos_gerados_previas (PostgreSQL)
+
+        id_postgres_application: ID (bigint) do registro em application
+                                  (PostgreSQL) — 1 por componente, estável
+                                  entre rodadas
+        id_postgres_documentation: ID (bigint) do registro em documentation
+                                    (PostgreSQL) — novo a cada rodada do agente
 
         status_final: "sucesso" | "erro" | "erro_parcial" | "processando"
         erros: lista de erros acumulados durante a execução
@@ -67,8 +77,9 @@ class DocumentacaoState(TypedDict):
     id_mongodb_previa: str | None
     id_mongodb_metadados: str | None
 
-    # --- Preenchido pelo postgres_node (PostgreSQL) ---
-    id_postgres: str | None
+    # --- Preenchido pelo postgres_node (PostgreSQL, Fase 11) ---
+    id_postgres_application: int | None
+    id_postgres_documentation: int | None
 
     # --- Controle de fluxo ---
     status_final: str | None
@@ -94,7 +105,8 @@ def criar_estado_inicial(component_name: str) -> DocumentacaoState:
         metadados_catalogo=None,
         id_mongodb_previa=None,
         id_mongodb_metadados=None,
-        id_postgres=None,
+        id_postgres_application=None,
+        id_postgres_documentation=None,
         status_final="processando",
         erros=[],
         etapa_atual="iniciando",
