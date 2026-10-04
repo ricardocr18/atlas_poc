@@ -1,0 +1,131 @@
+# ============================================================
+# SEGURANÇA — NUNCA versionar estes arquivos
+# ============================================================
+
+../agentes-especialista-classificacao/
+agentes-especialista-classificacao/
+fase1classificacao
+C:\projetosRico\pocs\atlas-chat-poc\agentes-especialista-classificacao
+
+# Variáveis de ambiente e credenciais
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ============================================================
+# PYTHON
+# ============================================================
+
+# Bytecode compilado
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribuição e empacotamento
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+lib/
+lib64/
+
+# ============================================================
+# POETRY — ambiente virtual
+# ============================================================
+
+.venv/
+venv/
+ENV/
+
+# ============================================================
+# TESTES E COBERTURA
+# ============================================================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# ============================================================
+# IDES
+# ============================================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+
+# ============================================================
+# SISTEMA OPERACIONAL
+# ============================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ============================================================
+# LOGS E DADOS TEMPORÁRIOS
+# ============================================================
+
+*.log
+logs/
+*.tmp
+*.temp
+
+# ============================================================
+# MONGODB — dumps e backups locais
+# ============================================================
+
+mongo_dumps/
+*.bson
+
+# ============================================================
+# DADOS MOCKADOS SENSÍVEIS (Fase 4 em diante)
+# ============================================================
+
+# Manter apenas o exemplo, nunca dados reais
+mock_input/real_*.json
+mock_input/prod_*.json
+
+# ============================================================
+# LANGGRAPH / LANGCHAIN (Fase 2 em diante)
+# ============================================================
+
+# Cache local de modelos
+.langchain_cache/
+langchain.db
+
+# ============================================================
+# DOCKER (fases futuras)
+# ============================================================
+
+.docker/
